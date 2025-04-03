@@ -10,8 +10,8 @@ namespace PacientesCesharp.bbdd
 {
     internal class conexion
     {
-        
-        private static readonly string url = "Data Source=JPexamen.db";
+
+        private static readonly string url = "Data Source=Pacientes.db";
 
         public static bool Acceder(string user, string pass)
         {
@@ -62,7 +62,7 @@ namespace PacientesCesharp.bbdd
             conn.Close();
         }
 
-        public static bool RegistrarPaciente(Paciente p)
+        public static bool RegistrarPaciente(modelo.Paciente p)
         {
             string consulta = "INSERT INTO Pacientes (nombre, apellidos, direccion, ciudad) VALUES (@nom, @ape, @dir, @ciu)";
             SqliteConnection conn = new SqliteConnection(url);
@@ -92,7 +92,7 @@ namespace PacientesCesharp.bbdd
             }
         }
 
-        public static bool RegistrarUsuario(Usuario u)
+        public static bool RegistrarUsuario(modelo.Usuario u)
         {
             string consulta = "INSERT INTO Usuarios (nombre, usuario, pass) VALUES (@nom, @usu, @pass)";
             SqliteConnection conn = new SqliteConnection(url);
@@ -102,7 +102,7 @@ namespace PacientesCesharp.bbdd
 
                 SqliteCommand comando = new SqliteCommand(consulta, conn);
 
-                comando.Parameters.AddWithValue("@nom", u.Nombre);
+                comando.Parameters.AddWithValue("@nom", u.Nombrecompleto);
                 comando.Parameters.AddWithValue("@usu", u.Usuarios);
                 comando.Parameters.AddWithValue("@pass", u.Pass);
 
@@ -146,5 +146,4 @@ namespace PacientesCesharp.bbdd
             }
         }
     }
-}
 }
