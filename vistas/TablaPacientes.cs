@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace PacientesCesharp.vistas
 {
-    public partial class Principal : Form
+    public partial class TablaPacientes : Form
     {
-        public Principal()
+        public TablaPacientes()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }
