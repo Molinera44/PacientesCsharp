@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -120,29 +121,70 @@ namespace PacientesCesharp.bbdd
                 conn.Close();
             }
         }
-        public static bool CompruebaUsuario(string usuario)
+
+        public static DataTable CargaPacientes()
         {
-            string consultausuario = "SELECT usuario FROM usuarios WHERE usuario=@usu";
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("ID");
+            dt.Columns.Add("NOMBRE");
+            dt.Columns.Add("APELLIDOS");
+            dt.Columns.Add("DIRECCION");
+            dt.Columns.Add("CIUDAD");
+
+            DataRow dr = dt.NewRow();
+
+            string consulta = "SELECT id, nombre, apellidos, direccion, ciudad FROM Pacientes";
+
             SqliteConnection conn = new SqliteConnection(url);
             conn.Open();
 
-            using (SqliteCommand command = new SqliteCommand(consultausuario, conn))
-            {
-                command.Parameters.AddWithValue("@usu", usuario);
-                SqliteDataReader resultados = command.ExecuteReader();
-                if (resultados.HasRows)
-                {
-                    conn.Close();
-                    resultados.Close();
-                    return true;
-                }
-                else
-                {
-                    conn.Close();
-                    resultados.Close();
-                    return false;
+            SqliteCommand command = new SqliteCommand(consulta, conn);
 
-                }
+            SqliteDataReader resultados = command.ExecuteReader();
+
+            while (resultados.Read())
+            {
+                dr = dt.NewRow();
+                dr["ID"] = resultados.GetInt32(0);
+                dr["NOMBRE"] = utilidades.Encriptado.Desencriptar(resultados.GetString(1));
+                dr["APELLIDOS"] = utilidades.Encriptado.Desencriptar(resultados.GetString(2);
+                dr["DIRECCION"] = utilidades.Encriptado.Desencriptar(resultados.GetString(3);
+                dr["CIUDAD"] = utilidades.Encriptado.Desencriptar(resultados.GetString(4);
+
+                dt.Rows.Add(dr);
+            }
+
+            resultados.Close();
+            conn.Close();
+
+            return dt;
+        }
+
+        public static bool CompruebaUsuario(string usuario)
+        {
+            string consultausuario = "SELECT usuario FROM usuarios WHERE usuario=@usu";
+
+            SqliteConnection conn = new SqliteConnection(url);
+            conn.Open();
+
+            SqliteCommand command = new SqliteCommand(consultausuario, conn);
+
+            command.Parameters.AddWithValue("@usu", usuario);
+
+            SqliteDataReader resultados = command.ExecuteReader();
+
+            if (resultados.HasRows)
+            {
+                conn.Close();
+                resultados.Close();
+                return true;
+            }
+            else
+            {
+                conn.Close();
+                resultados.Close();
+                return false;
             }
         }
     }
