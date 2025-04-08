@@ -25,6 +25,9 @@ namespace PacientesCesharp.utilidades
                 }
             }
         }
+        public static void LimpiarFormulario(GroupBox g)
+        {
+        }
         public static void LimpiarFormulario (GroupBox g) {
     }
 }
