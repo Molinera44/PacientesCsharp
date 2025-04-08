@@ -26,5 +26,10 @@ namespace PacientesCesharp
         {
 
         }
+
+        private void botonEnter_Click(object sender, EventArgs e)
+        {
+            Acceso();
+        }
     }
 }

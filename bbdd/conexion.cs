@@ -33,7 +33,6 @@ namespace PacientesCesharp.bbdd
             }
             catch (SqliteException e)
             {
-                Console.WriteLine(e.Message);
                 return false;
             }
             finally
@@ -148,9 +147,9 @@ namespace PacientesCesharp.bbdd
                 dr = dt.NewRow();
                 dr["ID"] = resultados.GetInt32(0);
                 dr["NOMBRE"] = utilidades.Encriptado.Desencriptar(resultados.GetString(1));
-                dr["APELLIDOS"] = utilidades.Encriptado.Desencriptar(resultados.GetString(2);
-                dr["DIRECCION"] = utilidades.Encriptado.Desencriptar(resultados.GetString(3);
-                dr["CIUDAD"] = utilidades.Encriptado.Desencriptar(resultados.GetString(4);
+                dr["APELLIDOS"] = utilidades.Encriptado.Desencriptar(resultados.GetString(2));
+                dr["DIRECCION"] = utilidades.Encriptado.Desencriptar(resultados.GetString(3));
+                dr["CIUDAD"] = utilidades.Encriptado.Desencriptar(resultados.GetString(4));
 
                 dt.Rows.Add(dr);
             }

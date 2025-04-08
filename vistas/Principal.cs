@@ -19,7 +19,20 @@ namespace PacientesCesharp.vistas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            AltaPacientes ap = new AltaPacientes();
+            ap.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AltaUsuarios au = new AltaUsuarios();
+            au.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            TablaPacientes tp = new TablaPacientes();
+            tp.Show();
         }
     }
 }

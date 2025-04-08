@@ -1,4 +1,7 @@
-﻿namespace PacientesCesharp
+﻿using PacientesCesharp.vistas;
+using System.Windows.Forms;
+
+namespace PacientesCesharp
 {
     partial class Login
     {
@@ -31,11 +34,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.campoUser = new System.Windows.Forms.TextBox();
-            this.campoPass = new System.Windows.Forms.TextBox();
             this.botonEnter = new System.Windows.Forms.Button();
+            this.campoPass = new System.Windows.Forms.TextBox();
+            this.campoUser = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -73,31 +76,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "LOGIN";
             // 
-            // label1
+            // botonEnter
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(50, 63);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Usuario";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 116);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Contraseña";
-            // 
-            // campoUser
-            // 
-            this.campoUser.Location = new System.Drawing.Point(177, 60);
-            this.campoUser.Name = "campoUser";
-            this.campoUser.Size = new System.Drawing.Size(148, 20);
-            this.campoUser.TabIndex = 1;
+            this.botonEnter.Location = new System.Drawing.Point(153, 168);
+            this.botonEnter.Name = "botonEnter";
+            this.botonEnter.Size = new System.Drawing.Size(82, 26);
+            this.botonEnter.TabIndex = 3;
+            this.botonEnter.Text = "Entrar";
+            this.botonEnter.UseVisualStyleBackColor = true;
+            this.botonEnter.Click += new System.EventHandler(this.botonEnter_Click);
             // 
             // campoPass
             // 
@@ -108,14 +95,31 @@
             this.campoPass.UseSystemPasswordChar = true;
             this.campoPass.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // botonEnter
+            // campoUser
             // 
-            this.botonEnter.Location = new System.Drawing.Point(153, 168);
-            this.botonEnter.Name = "botonEnter";
-            this.botonEnter.Size = new System.Drawing.Size(82, 26);
-            this.botonEnter.TabIndex = 3;
-            this.botonEnter.Text = "Entrar";
-            this.botonEnter.UseVisualStyleBackColor = true;
+            this.campoUser.Location = new System.Drawing.Point(177, 60);
+            this.campoUser.Name = "campoUser";
+            this.campoUser.Size = new System.Drawing.Size(148, 20);
+            this.campoUser.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(50, 116);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Contraseña";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(50, 63);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Usuario";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Login
             // 
@@ -146,6 +150,29 @@
         private System.Windows.Forms.TextBox campoPass;
         private System.Windows.Forms.TextBox campoUser;
         private System.Windows.Forms.Button botonEnter;
+
+
+        public void Acceso ()
+        {
+            string user;
+            string pass;
+
+            user = campoUser.Text;
+            pass = utilidades.Encriptado.Encriptar(campoPass.Text);
+
+            if(bbdd.conexion.Acceder(user, pass))
+            {
+                Principal p = new Principal();
+                p.Visible = true;
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show(this, "Logado incorrecto");
+                campoUser.Text="";
+                campoPass.Text="";
+            }
+        }
     }
 }
 
