@@ -130,6 +130,8 @@ namespace PacientesCesharp
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LOGIN";
@@ -163,7 +165,7 @@ namespace PacientesCesharp
             if(bbdd.conexion.Acceder(user, pass))
             {
                 Principal p = new Principal();
-                p.Visible = true;
+                p.Show();
                 this.Hide();
             }
             else

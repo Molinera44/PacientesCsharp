@@ -21,5 +21,10 @@ namespace PacientesCesharp.vistas
         {
 
         }
+
+        private void botonRegistro_Click(object sender, EventArgs e)
+        {
+            Registrar();
+        }
     }
 }

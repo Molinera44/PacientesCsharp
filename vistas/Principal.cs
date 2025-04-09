@@ -34,5 +34,10 @@ namespace PacientesCesharp.vistas
             TablaPacientes tp = new TablaPacientes();
             tp.Show();
         }
+
+        private void Principal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

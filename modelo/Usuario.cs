@@ -13,6 +13,13 @@ namespace PacientesCesharp.modelo
         private string usuarios;
         private string pass;
 
+        public Usuario(string nombrecompleto, string usuarios, string pass)
+        {
+            this.nombrecompleto = nombrecompleto;
+            this.usuarios = usuarios;
+            this.pass = pass;
+        }
+
         public Usuario(int id, string nombrecompleto, string usuario, string pass)
         {
             this.Id = id;
@@ -20,6 +27,8 @@ namespace PacientesCesharp.modelo
             this.Usuarios = usuario;
             this.Pass = pass;
         }
+
+
 
         public int Id { get => id; set => id = value; }
         public string Nombrecompleto { get => nombrecompleto; set => nombrecompleto = value; }

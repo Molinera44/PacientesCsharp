@@ -1,8 +1,7 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,21 +16,21 @@ namespace PacientesCesharp.bbdd
         public static bool Acceder(string user, string pass)
         {
             string consulta = "SELECT * FROM Usuarios WHERE usuario = @user AND pass = @pass";
-            SqliteConnection conn = new SqliteConnection(url);
+            SQLiteConnection conn = new SQLiteConnection(url);
 
             conn.Open();
 
-            SqliteCommand command = new SqliteCommand(consulta, conn);
+            SQLiteCommand command = new SQLiteCommand(consulta, conn);
 
             command.Parameters.AddWithValue("@user", user);
             command.Parameters.AddWithValue("@pass", pass);
 
-            SqliteDataReader resultados = command.ExecuteReader();
+            SQLiteDataReader resultados = command.ExecuteReader();
             try
             {
                 return resultados.Read();
             }
-            catch (SqliteException e)
+            catch (SQLiteException e)
             {
                 return false;
             }
@@ -45,13 +44,13 @@ namespace PacientesCesharp.bbdd
         public static void CargarComboCiudades(System.Windows.Forms.ComboBox cb)
         {
             string consulta = "SELECT ciudad FROM ciudades";
-            SqliteConnection conn = new SqliteConnection(url);
+            SQLiteConnection conn = new SQLiteConnection(url);
             conn.Open();
 
             //DataTable dt = new DataTable();
 
-            SqliteCommand command = new SqliteCommand(consulta, conn);
-            SqliteDataReader resultados = command.ExecuteReader();
+            SQLiteCommand command = new SQLiteCommand(consulta, conn);
+            SQLiteDataReader resultados = command.ExecuteReader();
 
             while (resultados.Read())
             {
@@ -65,12 +64,12 @@ namespace PacientesCesharp.bbdd
         public static bool RegistrarPaciente(modelo.Paciente p)
         {
             string consulta = "INSERT INTO Pacientes (nombre, apellidos, direccion, ciudad) VALUES (@nom, @ape, @dir, @ciu)";
-            SqliteConnection conn = new SqliteConnection(url);
+            SQLiteConnection conn = new SQLiteConnection(url);
             conn.Open();
             try
             {
 
-                SqliteCommand comando = new SqliteCommand(consulta, conn);
+                SQLiteCommand comando = new SQLiteCommand(consulta, conn);
 
                 comando.Parameters.AddWithValue("@nom", p.Nombre);
                 comando.Parameters.AddWithValue("@ape", p.Apellidos);
@@ -81,7 +80,7 @@ namespace PacientesCesharp.bbdd
                 return true;
 
             }
-            catch (SqliteException e)
+            catch (SQLiteException e)
             {
                 Console.WriteLine(e.Message);
                 return false;
@@ -94,13 +93,13 @@ namespace PacientesCesharp.bbdd
 
         public static bool RegistrarUsuario(modelo.Usuario u)
         {
-            string consulta = "INSERT INTO Usuarios (nombre, usuario, pass) VALUES (@nom, @usu, @pass)";
-            SqliteConnection conn = new SqliteConnection(url);
+            string consulta = "INSERT INTO Usuarios (nombrecompleto, usuario, pass) VALUES (@nom, @usu, @pass)";
+            SQLiteConnection conn = new SQLiteConnection(url);
             conn.Open();
             try
             {
 
-                SqliteCommand comando = new SqliteCommand(consulta, conn);
+                SQLiteCommand comando = new SQLiteCommand(consulta, conn);
 
                 comando.Parameters.AddWithValue("@nom", u.Nombrecompleto);
                 comando.Parameters.AddWithValue("@usu", u.Usuarios);
@@ -110,7 +109,7 @@ namespace PacientesCesharp.bbdd
                 return true;
 
             }
-            catch (SqliteException e)
+            catch (SQLiteException e)
             {
                 Console.WriteLine(e.Message);
                 return false;
@@ -135,12 +134,12 @@ namespace PacientesCesharp.bbdd
 
             string consulta = "SELECT id, nombre, apellidos, direccion, ciudad FROM Pacientes";
 
-            SqliteConnection conn = new SqliteConnection(url);
+            SQLiteConnection conn = new SQLiteConnection(url);
             conn.Open();
 
-            SqliteCommand command = new SqliteCommand(consulta, conn);
+            SQLiteCommand command = new SQLiteCommand(consulta, conn);
 
-            SqliteDataReader resultados = command.ExecuteReader();
+            SQLiteDataReader resultados = command.ExecuteReader();
 
             while (resultados.Read())
             {
@@ -164,26 +163,35 @@ namespace PacientesCesharp.bbdd
         {
             string consultausuario = "SELECT usuario FROM usuarios WHERE usuario=@usu";
 
-            SqliteConnection conn = new SqliteConnection(url);
+            SQLiteConnection conn = new SQLiteConnection(url);
             conn.Open();
 
-            SqliteCommand command = new SqliteCommand(consultausuario, conn);
+            SQLiteCommand command = new SQLiteCommand(consultausuario, conn);
 
             command.Parameters.AddWithValue("@usu", usuario);
 
-            SqliteDataReader resultados = command.ExecuteReader();
+            SQLiteDataReader resultados = command.ExecuteReader();
 
-            if (resultados.HasRows)
+            try
             {
-                conn.Close();
-                resultados.Close();
-                return true;
+                if (resultados.HasRows)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (SQLiteException e)
             {
-                conn.Close();
-                resultados.Close();
+                Console.WriteLine(e.Message);
                 return false;
+            }
+            finally
+            {
+                resultados.Close();
+                conn.Close();
             }
         }
     }

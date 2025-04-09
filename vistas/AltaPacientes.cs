@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PacientesCesharp.bbdd;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,7 @@ namespace PacientesCesharp.vistas
         public AltaPacientes()
         {
             InitializeComponent();
+            conexion.CargarComboCiudades(comboCiudad);
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -40,6 +42,11 @@ namespace PacientesCesharp.vistas
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void botonRegitrar_Click(object sender, EventArgs e)
+        {
+            Registrar();
         }
     }
 }
